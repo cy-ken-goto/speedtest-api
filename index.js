@@ -2,16 +2,50 @@ console.log('Loading function');
 
 var aws = require('aws-sdk');
 var dynamo = new aws.DynamoDB({region: 'us-west-2'});
+var uuid = require('node-uuid');
 
 exports.handler = function(event, context) {
     console.log('Received event:', JSON.stringify(event, null, 2));
-    
+
     dynamo.putItem({"TableName":"speedtest",
         "Item":{
-            "bucket":{"S":"hoge"},
-            "key":{"S":"fuga"}
+            "id": {
+                "S": uuid.v4()
+            },
+            "url": {
+                "S": event.url
+            },
+            "time": {
+                "N": event.time
+            },
+            "latitude": {
+                "S": event.latitude
+            },
+            "longitude": {
+                "S": event.longitude
+            },
+            "device_model": {
+                "S": event.device_model
+            },
+            "system_version": {
+                "S": event.system_version
+            },
+            "carrier_name": {
+                "S": event.carrier_name
+            },
+            "mobile_country_code": {
+                "N": event.mobile_country_code
+            },
+            "mobile_network_code": {
+                "N": event.mobile_network_code
+            },
+            "iso_country_code": {
+                "S": event.iso_country_code
+            },
+            "use_wifi": {
+                "N": event.use_wifi
+            }
         }
-        
     }, function(err, data) {
         if(err) {
             console.log(err);
