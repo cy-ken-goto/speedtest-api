@@ -1,7 +1,7 @@
 console.log('Loading function');
 
 var aws = require('aws-sdk');
-var dynamo = new aws.DynamoDB({region: 'us-west-2'});
+var dynamo = new aws.DynamoDB({region: 'us-east-1'});
 var uuid = require('node-uuid');
 
 exports.handler = function(event, context) {
@@ -44,6 +44,9 @@ exports.handler = function(event, context) {
             },
             "use_wifi": {
                 "N": event.use_wifi
+            },
+            "created_at": {
+                "N": Math.floor( new Date().getTime() / 1000 )
             }
         }
     }, function(err, data) {
